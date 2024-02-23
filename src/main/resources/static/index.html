@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Load Management</title>
+    <style>
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Load Management</h1>
+
+<form id="loadForm" onsubmit="submitLoad(event)">
+    <label for="loadingPoint">Loading Point:</label>
+    <input type="text" id="loadingPoint" required>
+
+    <label for="unloadingPoint">Unloading Point:</label>
+    <input type="text" id="unloadingPoint" required>
+
+    <label for="productType">Product Type:</label>
+    <input type="text" id="productType" required>
+
+    <label for="truckType">Truck Type:</label>
+    <input type="text" id="truckType" required>
+
+    <label for="noOfTrucks">Number of Trucks:</label>
+    <input type="number" id="noOfTrucks" required>
+
+    <label for="weight">Weight:</label>
+    <input type="number" id="weight" required>
+
+    <label for="comment">Comment:</label>
+    <input type="text" id="comment">
+
+    <label for="shipperId">Shipper ID:</label>
+    <input type="text" id="shipperId" required>
+
+    <label for="date">Date:</label>
+    <input type="date" id="date" placeholder="dd-mm-yyyy" required>
+
+    <button type="submit" onclick="submitLoad()">Submit</button>
+</form>
+
+<script>
+        function submitLoad() {
+        event.preventDefault();
+            const payload = {
+                loadingPoint: document.getElementById("loadingPoint").value,
+                unloadingPoint: document.getElementById("unloadingPoint").value,
+                productType: document.getElementById("productType").value,
+                truckType: document.getElementById("truckType").value,
+                noOfTrucks: document.getElementById("noOfTrucks").value,
+                weight: document.getElementById("weight").value,
+                comment: document.getElementById("comment").value,
+                shipperId: document.getElementById("shipperId").value,
+                date: document.getElementById("date").value
+            };
+
+            fetch('http://localhost:8081/load', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(payload),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Load details added successfully');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Error adding load details');
+            });
+        }
+</script>
+</body>
+</html>
